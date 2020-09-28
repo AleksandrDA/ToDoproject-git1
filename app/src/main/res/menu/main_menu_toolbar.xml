@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <item
+        android:id="@+id/search"
+        android:title="@string/searching_toolbar"
+        android:icon="@drawable/search_image_drawable"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/delete_all"
+        android:title="@string/item_delete_all"
+        app:showAsAction="never"/>
+
+</menu>
