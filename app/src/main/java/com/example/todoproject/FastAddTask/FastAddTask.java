@@ -1,27 +1,36 @@
 package com.example.todoproject.FastAddTask;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.todoproject.Main.MainActivity;
 import com.example.todoproject.R;
 
 
-public class FastAddTask extends AppCompatActivity implements FastTaskContract.View {
+public class FastAddTask extends AppCompatActivity implements FastTaskContract.View, View.OnClickListener {
 
     private FastTaskPresenter ftPresenter;
     private static final String TAG = "myLogs";
+    private boolean isPressed = true;
+
 
     //DBHelper dbHelper;
 
@@ -30,8 +39,10 @@ public class FastAddTask extends AppCompatActivity implements FastTaskContract.V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fast_add_task);
 
-        final EditText etNameTask = findViewById(R.id.etNameTask);
+        EditText etNameTask = findViewById(R.id.etNameTask);
+
         ImageView ivAdd = findViewById(R.id.ivAdd);
+        ImageView imgStopWatchFastAddTask = findViewById(R.id.imgStopWatchFastAddTask);
 
         //создание Presenter
        if(ftPresenter == null) {
@@ -55,10 +66,11 @@ public class FastAddTask extends AppCompatActivity implements FastTaskContract.V
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 ImageView ivAddTask = findViewById(R.id.ivAdd);
-                if(count != 0) {
+                if(start > 0 || count != 0) {
                     final int greenColor = ContextCompat.getColor(FastAddTask.this, R.color.colorFab);
                     ivAddTask.setColorFilter(greenColor, PorterDuff.Mode.SRC_ATOP);
-                } else {
+                }
+                else {
                     final int blackColor = ContextCompat.getColor(FastAddTask.this, R.color.black);
                     ivAddTask.setColorFilter(blackColor, PorterDuff.Mode.SRC_ATOP);
                 }
@@ -69,21 +81,8 @@ public class FastAddTask extends AppCompatActivity implements FastTaskContract.V
             }
         });
 
-        //обработка нажатия на картинку, которая сохраняет задачу
-        ivAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!etNameTask.getText().toString().isEmpty()) {
-                    ftPresenter.onSaveTask(etNameTask);
-                    etNameTask.getText().clear();
-                    Log.d(TAG, "user did click");
-                } else {
-                    Toast toast = Toast.makeText(FastAddTask.this, R.string.et_text_input, Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
-            }
-        });
+        ivAdd.setOnClickListener(this);
+        imgStopWatchFastAddTask.setOnClickListener(this);
     }
 
     //создание меню в Toolbar
@@ -92,6 +91,56 @@ public class FastAddTask extends AppCompatActivity implements FastTaskContract.V
         getMenuInflater().inflate(R.menu.menu_launch_task, menu);
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                Intent mainActivityIntent = new Intent(FastAddTask.this, MainActivity.class);
+                startActivity(mainActivityIntent);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        EditText etNameTask = findViewById(R.id.etNameTask);
+        ImageView imgStopWatchFastAddTask = findViewById(R.id.imgStopWatchFastAddTask);
+
+        int id = view.getId();
+
+        if(id == R.id.ivAdd) {
+            if (!etNameTask.getText().toString().isEmpty()) {
+                ftPresenter.onSaveTask(etNameTask);
+                etNameTask.getText().clear();
+                setResult(RESULT_OK);
+                Log.d(TAG, "user did click");
+            } else {
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.et_text_input, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        }
+        if(id == R.id.imgStopWatchFastAddTask) {
+            if(isPressed) {
+                final int greenColor = ContextCompat.getColor(FastAddTask.this, R.color.colorFab);
+                imgStopWatchFastAddTask.setColorFilter(greenColor, PorterDuff.Mode.SRC_ATOP);
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.stopwatch_on, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                isPressed = false;
+            }
+            else if(!isPressed) {
+                imgStopWatchFastAddTask.setColorFilter(R.color.black, PorterDuff.Mode.SRC_ATOP);
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.stopwatch_off, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                isPressed = true;
+            }
+        }
+    }
+
 
     /*class DBHelper extends SQLiteOpenHelper {
 

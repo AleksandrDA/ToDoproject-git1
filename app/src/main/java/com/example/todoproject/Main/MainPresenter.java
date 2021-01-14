@@ -23,7 +23,7 @@ public class MainPresenter implements MainContract.MainPresenter {
 
     private List<Tasks> tasks;
 
-    //конструктор принимает interface MainContract.ReceiveDataRoom для передачи информации (List<Tasks> tasks)  в MainActivity
+    //конструктор принимает interface MainContract.ReceiveDataRoom для того чтобы передать информацию (List<Tasks> tasks)  в MainActivity
     public MainPresenter(OnTaskReceived onReceived) {
         onTaskReceived = onReceived;
     }

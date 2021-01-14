@@ -34,10 +34,10 @@
             android:textColor="@color/black"
             android:textColorHint="@color/gray"
             tools:ignore="Autofill"
-            app:layout_constraintBottom_toTopOf="@+id/imgStopWatch" />
+            app:layout_constraintBottom_toTopOf="@+id/imgStopWatchFastAddTask" />
 
         <ImageView
-            android:id="@+id/imgStopWatch"
+            android:id="@+id/imgStopWatchFastAddTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -54,7 +54,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgStopWatch"
+            app:layout_constraintStart_toEndOf="@+id/imgStopWatchFastAddTask"
             app:srcCompat="@drawable/calendar"
             tools:ignore="ContentDescription" />
 

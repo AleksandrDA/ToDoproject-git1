@@ -4,6 +4,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,10 +25,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         TextView itemRecyclerTask;
+        CheckBox checkBoxTask;
+        ImageView imgStopWatchMainAct;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
             itemRecyclerTask = itemView.findViewById(R.id.item_recycler_task);
+            checkBoxTask = itemView.findViewById(R.id.checkBoxTask);
+            imgStopWatchMainAct = itemView.findViewById(R.id.imgStopWatchMainAct);
+
         }
     }
 
@@ -49,11 +56,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         //viewHolder.itemRecyclerTask.setText(allTasks);
         Tasks task = allTasks.get(position);
         viewHolder.itemRecyclerTask.setText(task.getTaskName());
+
+        //просто пробный вариант
+        int currentPosition = 2;
+        if(currentPosition == position) {
+            viewHolder.imgStopWatchMainAct.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        if(allTasks != null) return allTasks.size();
-        else return 0;
+        if(allTasks != null){
+            return allTasks.size();
+        } else {
+            return 0;
+        }
     }
 }

@@ -9,7 +9,12 @@
         android:id="@+id/search"
         android:title="@string/searching_toolbar"
         android:icon="@drawable/search_image_drawable"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings_toolbar"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/delete_all"
